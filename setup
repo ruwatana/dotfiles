@@ -19,13 +19,10 @@ help() {
   cat <<EOF
 Usage:
   $name [arguments] [command]
-
 Commands:
-  deploy
-  initialize
-
+  deploy: make symbolic links
+  initialize: install/update and deploy
 Arguments:
-  -f $(tput setaf 1)** warning **$(tput sgr0) Overwrite dotfiles.
   -h Print help (this message)
 EOF
   exit 1
@@ -108,19 +105,17 @@ run_brew() {
 
     # brew tap
     brew tap 'caskroom/cask' # Homebrew Cask
-    brew tap 'homebrew/dupes'
     brew tap 'sanemat/font' # For install ricty
 
     # Install each package if needed by brew
     local list_formulae
     local -a missing_formulae
     local -a desired_formulae=(
+      'carthage'
       'ffmpeg'
-      'gibo'
       'git'
       'imagemagick'
-      'pyenv'
-      'pyenv-virtualenv'
+      'openssl'
       'ricty --powerline --vim-powerline'
       'tmux'
       'tree'
@@ -162,15 +157,16 @@ run_brew() {
     local -a missing_formulae=()
     local -a desired_formulae=(
       'alfred'
+      'atom'
       'bettertouchtool'
-      'dash'
-      'franz'
+      'charles'
       'google-chrome'
       'iterm2'
-      'karabiner'
       'slack'
+      'sketch'
       'skitch'
       'skype'
+      'xmarks-safari'
     )
 
     local installed=`brew cask list`
@@ -180,8 +176,6 @@ run_brew() {
       local formula=`echo ${desired_formulae[$index]} | cut -d' ' -f 1`
       if [[ -z `echo "${installed}" | grep "^${formula}$"` ]]; then
         missing_formulae=("${missing_formulae[@]}" "${desired_formulae[$index]}")
-      else
-        echo "Installed ${formula}"
       fi
     done
 
@@ -202,12 +196,68 @@ run_brew() {
   fi
 }
 
+# anyenv
+run_anyenv() {
+  if [ ! -d ${HOME}/.anyenv ]; then
+    echo "Downloading anyenv..."
+    
+    git clone https://github.com/riywo/anyenv ~/.anyenv 
+    
+    echo "$(tput setaf 2)Download anyenv ✔︎$(tput sgr0)"
+    
+    if has "anyenv"; then
+      echo "Installing anyenv..."
+      anyenv install rbenv
+      anyenv install pyenv
+      anyenv install phpenv
+      anyenv install ndenv
+      exec $SHELL -l
+    
+      echo "$(tput setaf 2)Installed anyenv ✔︎$(tput sgr0)"
+
+    else
+      echo "$(tput setaf 1)anyenv not existed path.$(tput sgr0)"
+      exit 1
+    fi
+  fi
+
+  # pyenv
+  if has "pyenv"; then
+    # Install python 3.X.X (latest)
+    latest3x=`pyenv install --list | grep -v - | grep -oe '3.\d.\d*$' | tail -n 1`
+    current=`pyenv versions | grep -oe '\d\.\d\{1,\}\.\d\{1,\}\([ ]\|$\)' | tail -n 1 | tr -d "[:space:]"`
+    if [[ ${current} != ${latest3x} ]]; then
+      echo "Installing pyenv install $(latest3x)"
+      pyenv install ${latest3x}
+      pyenv global ${latest3x}
+    else  
+      echo "Already pyenv global version is $(latest3x)"
+      pyenv global ${latest3x}
+    fi
+
+    if has 'pip'; then
+      pip install --upgrade pip
+      pip install --user powerline-status
+      echo "$(tput setaf 2)powerline-status install completed. ✔︎$(tput sgr0)"
+    else
+      echo "$(tput setaf 1)pip not installed.$(tput sgr0)"
+      exit 1
+    fi
+  else
+    echo "$(tput setaf 1)pyenv not installed.$(tput sgr0)"
+    exit 1
+  fi
+}
+
 # Installation and initialize
 initialize() {
   run_brew
 
   # Install zplug (zsh plugin)
   [ ! -d ${HOME}/.zplug ] && curl -sL zplug.sh/installer | zsh
+
+  # Change shell to zsh
+  [ ${SHELL} != "/bin/zsh"  ] && chsh -s /bin/zsh
 
   # Install tpm (tmux plugin manager)
   [ ! -d ${HOME}/.tmux/plugins/tpm ] && git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
@@ -222,29 +272,7 @@ initialize() {
     echo "$(tput setaf 2)dein.vim already installed. ✔︎$(tput sgr0)"
   fi
 
-  # Install powerline by pyenv
-  if has "pyenv"; then
-    # Install python 2.7.X (latest)
-    latest27x=`pyenv install --list | grep -v - | grep -oe '2.7.\d*$' | tail -n 1`
-    current=`pyenv versions | grep -oe '\d\.\d\{1,\}\.\d\{1,\}\([ ]\|$\)' | tail -n 1 | tr -d "[:space:]"`
-    if [ ${current} != ${latest27x} ]; then
-      PYTHON_CONFIGURE_OPTS="--enable-framework"
-      pyenv install ${latest27x}
-    fi  
-    pyenv global ${latest27x}
-    
-    if has "pip"; then
-      pip install --upgrade pip
-      pip install powerline-status
-      echo "$(tput setaf 2)powerline-status install completed. ✔︎$(tput sgr0)"
-    else
-      echo "$(tput setaf 1)pip not installed."
-      exit 1
-    fi
-  fi
-  
-  # Change shell to zsh
-  [ ${SHELL} != "/bin/zsh"  ] && chsh -s /bin/zsh
+  run_anyenv
 
   echo "$(tput setaf 2)Initialize complete!. ✔︎$(tput sgr0)"
 }
@@ -265,3 +293,4 @@ case $command in
 esac
 
 exit 0
+

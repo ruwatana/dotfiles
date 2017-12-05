@@ -17,9 +17,6 @@ call dein#add('Shougo/dein.vim')
 call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
 call dein#add('dracula/vim')
 
-" You can specify revision/branch/tag.
-" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-
 " Required:
 call dein#end()
 
@@ -31,7 +28,6 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
-
 "End dein Scripts-------------------------
 
 " Powerline 設定
@@ -54,7 +50,7 @@ set whichwrap=b,s,h,l,<,>,[,],~  " 左右のカーソル移動で行を跨いで
 set scrolloff=3    " スクロールの余裕を確保する
 
 set expandtab      " タブの代わりに空白を使う
-set tabstop=2      " タブの幅
+set tabstop=4      " タブの幅
 set shiftwidth=2   " 自動インデントでずれる幅
 set softtabstop=0  " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅（デフォルトでは無効: 0）
 set autoindent     " 改行時に前の行のインデントを継続する
@@ -73,3 +69,4 @@ set noshowmode      " 左下の-- INSERT --を出なくする
 " set spelllang=en,cjk " 日本語を除外
 
 set cursorline      " 現在の行をハイライト
+

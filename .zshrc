@@ -7,8 +7,6 @@ source ~/.zplug/init.zsh
 
 zplug "zsh-users/zsh-syntax-highlighting"
 zplug "zsh-users/zsh-completions"
-# zplug "yonchu/zsh-vcs-prompt", use:"zshrc.sh"
-# zplug "b4b4r07/enhancd", use:"init.sh"
 zplug 'dracula/zsh', as:theme
 
 if ! zplug check; then
@@ -16,12 +14,6 @@ if ! zplug check; then
 fi
 
 zplug load
-
-# zsh vcs promptでversion情報を右端のプロンプトに表示
-# if zplug check yonchu/zsh-vcs-prompt; then
-#   ZSH_VCS_PROMPT_ENABLE_CACHING='true'
-#   RPROMPT='$(vcs_super_info)'${RPROMPT}
-# fi
 
 # ------------------------------
 # Zsh General Settings
@@ -100,19 +92,21 @@ tmp_prompt="%{${fg[cyan]}%}%n[%c] %{${reset_color}%}"
 PROMPT=$tmp_prompt
 # if ssh
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && PROMPT="%{${fg[white]}%}${HOST%%.*} ${PROMPT}"
-
-### Powerline ###
-powerline-daemon -q
-. /usr/local/lib/python2.7/site-packages/powerline/bindings/zsh/powerline.zsh
-
+# iTermのtitle設定
+function chpwd() { 
+  echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print $1"/"$2}'| rev)\007"
+}
+# 現在のディレクトリ情報をtitleに出力
+chpwd;
 
 # ------------------------------
 # Other Settings
 # ------------------------------
 
-# cdコマンド実行後、lsを実行する
+# cdコマンド実行後、lsとタイトルセットを実行する
 function cd() {
   builtin cd $@ && ls -a;
+  chpwd; 
 }
 
 # Path 設定
@@ -123,4 +117,17 @@ case "${OSTYPE}" in
   ;;
 esac
 
+# anyenv
+export PATH=$HOME/.anyenv/bin:$PATH
+eval "$(anyenv init - --no-rehash)"
+
+export PYENV_ROOT="$HOME/.anyenv/envs/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+### Powerline ###
+if type powerline-daemon >/dev/null 2>&1; then
+  powerline-daemon -q
+  . $HOME/.local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
+fi
 

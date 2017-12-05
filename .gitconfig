@@ -16,3 +16,10 @@
   grep = auto
 [alias]
   graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
+  co = checkout
+  cm = commit
+  d = diff
+  st = status
+  dl = branch -D
+  f = fetch
+
