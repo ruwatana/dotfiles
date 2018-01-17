@@ -130,13 +130,13 @@ esac
 export PATH=$HOME/.anyenv/bin:$PATH
 eval "$(anyenv init - --no-rehash)"
 
+# pyenv
 export PYENV_ROOT="$HOME/.anyenv/envs/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 ### Powerline ###
-if type powerline-daemon >/dev/null 2>&1; then
-  powerline-daemon -q
+export PATH=~/.local/bin/:$PATH
+powerline-daemon -q
   . $HOME/.local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
-fi
 
