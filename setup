@@ -227,11 +227,11 @@ run_anyenv() {
     latest3x=`pyenv install --list | grep -v - | grep -oe '3.\d.\d*$' | tail -n 1`
     current=`pyenv versions | grep -oe '\d\.\d\{1,\}\.\d\{1,\}\([ ]\|$\)' | tail -n 1 | tr -d "[:space:]"`
     if [[ ${current} != ${latest3x} ]]; then
-      echo "Installing pyenv install $(latest3x)"
+      echo "Installing pyenv install ${latest3x}"
       pyenv install ${latest3x}
       pyenv global ${latest3x}
     else  
-      echo "Already pyenv global version is $(latest3x)"
+      echo "Already pyenv global version is ${latest3x}"
       pyenv global ${latest3x}
     fi
 
@@ -254,7 +254,7 @@ initialize() {
   run_brew
 
   # Install zplug (zsh plugin)
-  [ ! -d ${HOME}/.zplug ] && curl -sL zplug.sh/installer | zsh
+  [ ! -d ${HOME}/.zplug ] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 
   # Change shell to zsh
   [ ${SHELL} != "/bin/zsh"  ] && chsh -s /bin/zsh
