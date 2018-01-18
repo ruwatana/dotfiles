@@ -14,7 +14,8 @@ call dein#begin('~/.vim')
 call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
-call dein#add('powerline/powerline', {'rtp': 'powerline/bindings/vim/'})
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 call dein#add('dracula/vim')
 
 " Required:
@@ -30,12 +31,18 @@ if dein#check_install()
 endif
 "End dein Scripts-------------------------
 
-" Powerline 設定
+" vim-airline 設定
 set laststatus=2 " statusline表示
+set showtabline=2 " 常にタブラインを表示
+set t_Co=256 " 256色に対応
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+" let g:airline_theme='murmur' "落ち着いた色調が好き
+let g:airline_powerline_fonts = 1
+
 
 " Vim 設定
 syntax on " syntax highlightを有効にする
-set t_Co=256 " 256色に対応
 colorscheme dracula " draculaテーマを有効にする
 
 set encoding=utf-8
