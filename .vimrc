@@ -37,7 +37,7 @@ set showtabline=2 " 常にタブラインを表示
 set t_Co=256 " 256色に対応
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-" let g:airline_theme='murmur' "落ち着いた色調が好き
+let g:airline_theme='powerlineish' "https://github.com/vim-airline/vim-airline/wiki/Screenshots
 let g:airline_powerline_fonts = 1
 
 
