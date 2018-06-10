@@ -67,8 +67,6 @@ bindkey "^N" history-beginning-search-forward-end
 # bindkey "^[[A" history-beginning-search-backward-end # 上矢印でマッチしたヒストリ検索(逆)
 # bindkey "^[[B" history-beginning-search-forward-end  # 下矢印でマッチしたヒストリ検索
 
-# すべてのヒストリを表示する
-function history-all { history -E 1 }
 
 # ------------------------------
 # Look And Feel Settings
@@ -86,12 +84,30 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 
 ### Prompt ###
 autoload -Uz colors; colors
-tmp_prompt="%{${fg[cyan]}%}%n[%c] %{${reset_color}%}"
+
+# username@hostname [current directory] % 
+tmp_prompt=$'%{${fg[green]}%}%n%{${fg[cyan]}%}@%{${fg[blue]}%}%m%{${fg[magenta]}%}[%~]%{${fg[cyan]}%} %# %{${reset_color}%}'
+
 # if root user
 [ ${UID} -eq 0 ] && tmp_prompt="%B%U${tmp_prompt}%u%b"
 PROMPT=$tmp_prompt
 # if ssh
 [ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && PROMPT="%{${fg[white]}%}${HOST%%.*} ${PROMPT}"
+
+### vcs_info ###
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true #formats 設定項目で %c,%u が使用可
+zstyle ':vcs_info:git:*' stagedstr "%F{green}!" #commit されていないファイルがある
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+" #add されていないファイルがある
+zstyle ':vcs_info:*' formats "%F{cyan}(%s) - %f%F{yellow}%c%u[%b]%f" #通常
+zstyle ':vcs_info:*' actionformats '(%s) - [%b|%a]' #rebase 途中,merge コンフリクト等 formats 外の表示
+precmd () { vcs_info }
+
+# RPROMPT
+RPROMPT='${vcs_info_msg_0_}' # シングルクォーテーションでないと認識されない
+RPROMPT="$RPROMPT %{${fg[blue]}%}[%*]%{${reset_color}%}"
+
 # iTermのtitle設定
 function chpwd() { 
   echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print $1"/"$2}'| rev)\007"
