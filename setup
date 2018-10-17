@@ -156,17 +156,19 @@ run_brew() {
     # Install each application if needed by brew cask
     local -a missing_formulae=()
     local -a desired_formulae=(
+      'abstract'
       'alfred'
       'atom'
       'bettertouchtool'
       'charles'
+      'cyberduck'
       'google-chrome'
       'iterm2'
       'slack'
       'sketch'
       'skitch'
-      'skype'
       'visual-studio-code'
+      'zeplin'
     )
 
     local installed=`brew cask list`
