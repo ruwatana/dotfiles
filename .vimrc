@@ -17,6 +17,7 @@ call dein#add('Shougo/dein.vim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('dracula/vim')
+call dein#add('kchmck/vim-coffee-script')
 
 " Required:
 call dein#end()
@@ -77,3 +78,6 @@ set noshowmode      " 左下の-- INSERT --を出なくする
 
 set cursorline      " 現在の行をハイライト
 
+" markdownのハイライトを有効にする
+set syntax=markdown
+au BufRead,BufNewFile *.md set filetype=markdown
