@@ -166,7 +166,7 @@ run_brew() {
       'sketch'
       'skitch'
       'skype'
-      'xmarks-safari'
+      'visual-studio-code'
     )
 
     local installed=`brew cask list`
