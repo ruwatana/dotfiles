@@ -18,6 +18,7 @@ call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('dracula/vim')
 call dein#add('kchmck/vim-coffee-script')
+call dein#add('keith/swift.vim')
 
 " Required:
 call dein#end()
