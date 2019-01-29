@@ -105,6 +105,7 @@ run_brew() {
 
     # brew tap
     brew tap 'caskroom/cask' # Homebrew Cask
+    brew tap 'caskroom/versions' # Homebrew Cask versions
     brew tap 'sanemat/font' # For install ricty
 
     # Install each package if needed by brew
@@ -112,11 +113,14 @@ run_brew() {
     local -a missing_formulae
     local -a desired_formulae=(
       'carthage'
+      'composer'
       'ffmpeg'
       'git'
       'imagemagick'
+      'node@10'
       'openssl'
       'ricty --powerline --vim-powerline'
+      'scala'
       'tmux'
       'tree'
       'wget'
@@ -164,11 +168,14 @@ run_brew() {
       'cyberduck'
       'google-chrome'
       'iterm2'
+      'intellij-idea'
+      'java8'
+      'phpstorm'
+      'sequel-pro'
       'slack'
       'sketch'
       'skitch'
       'visual-studio-code'
-      'zeplin'
     )
 
     local installed=`brew cask list`

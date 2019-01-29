@@ -142,6 +142,9 @@ case "${OSTYPE}" in
   ;;
 esac
 
+# nodejs
+export PATH="/usr/local/opt/node@10/bin:$PATH"
+
 # anyenv
 export PATH=$HOME/.anyenv/bin:$PATH
 eval "$(anyenv init - --no-rehash)"
