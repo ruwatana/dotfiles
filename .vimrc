@@ -45,6 +45,11 @@ let g:airline_powerline_fonts = 1
 
 " Vim 設定
 syntax on " syntax highlightを有効にする
+
+" Vimの背景色をターミナルの背景色と揃える
+autocmd ColorScheme * highlight Normal ctermbg=none
+autocmd ColorScheme * highlight LineNr ctermbg=none
+
 colorscheme dracula " draculaテーマを有効にする
 
 set encoding=utf-8
