@@ -146,16 +146,5 @@ esac
 export PATH="/usr/local/opt/node@10/bin:$PATH"
 
 # anyenv
-export PATH=$HOME/.anyenv/bin:$PATH
-eval "$(anyenv init - --no-rehash)"
-
-# pyenv
-export PYENV_ROOT="$HOME/.anyenv/envs/pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
-### Powerline ###
-export PATH=~/.local/bin/:$PATH
-powerline-daemon -q
-  . $HOME/.local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
+eval "$(anyenv init -)"
 

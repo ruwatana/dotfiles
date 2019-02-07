@@ -106,12 +106,14 @@ run_brew() {
     # brew tap
     brew tap 'caskroom/cask' # Homebrew Cask
     brew tap 'caskroom/versions' # Homebrew Cask versions
-    brew tap 'sanemat/font' # For install ricty
+    brew tap 'anyenv/anyenv'
+    brew tap 'AdoptOpenJDK/openjdk'
 
     # Install each package if needed by brew
     local list_formulae
     local -a missing_formulae
     local -a desired_formulae=(
+      'anyenv'
       'carthage'
       'composer'
       'ffmpeg'
@@ -119,8 +121,6 @@ run_brew() {
       'imagemagick'
       'node@10'
       'openssl'
-      'ricty --powerline --vim-powerline'
-      'scala'
       'tmux'
       'tree'
       'wget'
@@ -136,7 +136,6 @@ run_brew() {
         missing_formulae=("${missing_formulae[@]}" "${desired_formulae[$index]}")
       else
         echo "Installed ${formula}"
-        [[ "${formula}" = "ricty" ]] && local installed_ricty=true
       fi
     done
 
@@ -147,14 +146,6 @@ run_brew() {
       brew install $list_formulae
 
       [[ $? ]] && echo "$(tput setaf 2)Installed missing formulae ✔︎$(tput sgr0)"
-    fi
-
-    # Install ricty
-    if [ -z "${installed_ricty}"  ]; then
-      echo "Reload fonts. This could take a while..."
-      local cellar=`brew --config | grep 'HOMEBREW_CELLAR' | cut -d' ' -f 2`
-      find ${cellar}/ricty/*/share/fonts/Ricty*.ttf | xargs -I % cp % ~/Library/Fonts
-      fc-cache -vf
     fi
 
     # Install each application if needed by brew cask
@@ -169,13 +160,13 @@ run_brew() {
       'google-chrome'
       'iterm2'
       'intellij-idea'
-      'java8'
-      'phpstorm'
+      'adoptopenjdk8'
       'sequel-pro'
       'slack'
       'sketch'
       'skitch'
       'visual-studio-code'
+      'zoomus'
     )
 
     local installed=`brew cask list`
@@ -207,27 +198,21 @@ run_brew() {
 
 # anyenv
 run_anyenv() {
-  if [ ! -d ${HOME}/.anyenv ]; then
-    echo "Downloading anyenv..."
-    
-    git clone https://github.com/riywo/anyenv ~/.anyenv 
-    
-    echo "$(tput setaf 2)Download anyenv ✔︎$(tput sgr0)"
-    
-    if has "anyenv"; then
-      echo "Installing anyenv..."
-      anyenv install rbenv
-      anyenv install pyenv
-      anyenv install phpenv
-      anyenv install ndenv
-      exec $SHELL -l
-    
-      echo "$(tput setaf 2)Installed anyenv ✔︎$(tput sgr0)"
+  echo "Initializing anyenv..."
 
-    else
-      echo "$(tput setaf 1)anyenv not existed path.$(tput sgr0)"
-      exit 1
-    fi
+  if has "anyenv"; then
+    echo "Installing anyenv..."
+    anyenv install rbenv
+    anyenv install pyenv
+    anyenv install phpenv
+    anyenv install ndenv
+    exec $SHELL -l
+
+    echo "$(tput setaf 2)Installed anyenv ✔︎$(tput sgr0)"
+
+  else
+    echo "$(tput setaf 1)anyenv not existed path.$(tput sgr0)"
+    exit 1
   fi
 
   # pyenv
@@ -244,14 +229,6 @@ run_anyenv() {
       pyenv global ${latest3x}
     fi
 
-    if has 'pip'; then
-      pip install --upgrade pip
-      pip install --user powerline-status
-      echo "$(tput setaf 2)powerline-status install completed. ✔︎$(tput sgr0)"
-    else
-      echo "$(tput setaf 1)pip not installed.$(tput sgr0)"
-      exit 1
-    fi
   else
     echo "$(tput setaf 1)pyenv not installed.$(tput sgr0)"
     exit 1
@@ -280,6 +257,8 @@ initialize() {
   else
     echo "$(tput setaf 2)dein.vim already installed. ✔︎$(tput sgr0)"
   fi
+
+  deploy
 
   run_anyenv
 
