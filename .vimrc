@@ -18,6 +18,8 @@ if dein#load_state('~/.cache/dein')
   call dein#add('dracula/vim')
   call dein#add('kchmck/vim-coffee-script')
   call dein#add('keith/swift.vim')
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
   "call dein#add('Shougo/neosnippet.vim')
   "call dein#add('Shougo/neosnippet-snippets')
 
@@ -34,8 +36,11 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
-
 "End dein Scripts-------------------------
+
+" vim-airline設定
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
 " Vim 設定
 set laststatus=2 " statusline表示
