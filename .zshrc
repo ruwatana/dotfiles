@@ -128,6 +128,9 @@ function mov2gif() {
   rm $palette
 }
 
+# PATH設定 (sbin: for Homebrew)
+PATH="/usr/local/sbin:$PATH"
+
 # anyenv
 eval "$(anyenv init -)"
 
