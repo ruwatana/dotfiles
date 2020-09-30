@@ -4,24 +4,27 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=~/.vim/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.cache/dein/repos/github.com/Shougo/dein.vim
 
 " Required:
-call dein#begin('~/.vim')
+if dein#load_state('~/.cache/dein')
+  call dein#begin('~/.cache/dein')
 
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+  " Let dein manage dein
+  " Required:
+  call dein#add('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
-" Add or remove your plugins here:
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('dracula/vim')
-call dein#add('kchmck/vim-coffee-script')
-call dein#add('keith/swift.vim')
+  " Add or remove your plugins here like this:
+  call dein#add('dracula/vim')
+  call dein#add('kchmck/vim-coffee-script')
+  call dein#add('keith/swift.vim')
+  "call dein#add('Shougo/neosnippet.vim')
+  "call dein#add('Shougo/neosnippet-snippets')
 
-" Required:
-call dein#end()
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
 
 " Required:
 filetype plugin indent on
@@ -31,19 +34,13 @@ syntax enable
 if dein#check_install()
   call dein#install()
 endif
+
 "End dein Scripts-------------------------
 
-" vim-airline 設定
+" Vim 設定
 set laststatus=2 " statusline表示
 set showtabline=2 " 常にタブラインを表示
 set t_Co=256 " 256色に対応
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_theme='powerlineish' "https://github.com/vim-airline/vim-airline/wiki/Screenshots
-let g:airline_powerline_fonts = 1
-
-
-" Vim 設定
 syntax on " syntax highlightを有効にする
 
 " Vimの背景色をターミナルの背景色と揃える

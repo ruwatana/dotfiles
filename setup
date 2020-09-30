@@ -196,9 +196,11 @@ initialize() {
   fi
 
   # Install dein.vim
-  if [ ! -d ${HOME}/.vim/repos/github.com/Shougo/dein.vim ]; then
+  echo "Installing dein.vim..."
+  if [ ! -d ${HOME}/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
     curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-    sh ./installer.sh ~/.vim
+    # For example, we just use `~/.cache/dein` as installation directory
+    sh ./installer.sh ~/.cache/dein
     rm -rf ./installer.sh
     echo "$(tput setaf 2)dein.vim install complete. ✔︎$(tput sgr0)"
   else
