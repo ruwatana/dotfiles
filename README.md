@@ -1,10 +1,5 @@
 # dotfiles
 
-## 下準備
-```
-$ xcode-select --install
-```
-
 ## Usage
 ```
 $ cd
