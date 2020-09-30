@@ -134,17 +134,6 @@ function mov2gif() {
   rm $palette
 }
 
-# Path 設定
-case "${OSTYPE}" in
-  darwin*)
-    export PATH=./vendor/bin:/usr/local/bin:/opt/local/bin:/opt/local/sbin:$PATH
-    export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
-  ;;
-esac
-
-# nodejs
-export PATH="/usr/local/opt/node@10/bin:$PATH"
-
 # anyenv
 eval "$(anyenv init -)"
 

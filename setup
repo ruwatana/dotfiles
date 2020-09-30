@@ -103,27 +103,15 @@ run_brew() {
     brew upgrade
     [[ $? ]] && echo "$(tput setaf 2)Update Homebrew complete. ✔︎$(tput sgr0)"
 
-    # brew tap
-    brew tap 'caskroom/cask' # Homebrew Cask
-    brew tap 'caskroom/versions' # Homebrew Cask versions
-    brew tap 'anyenv/anyenv'
-    brew tap 'AdoptOpenJDK/openjdk'
-
     # Install each package if needed by brew
     local list_formulae
     local -a missing_formulae
     local -a desired_formulae=(
       'anyenv'
       'carthage'
-      'composer'
       'ffmpeg'
-      'git'
       'imagemagick'
-      'node@10'
-      'openssl'
-      'tmux'
       'tree'
-      'wget'
       'zsh'
     )
 
@@ -134,8 +122,6 @@ run_brew() {
       local formula=`echo ${desired_formulae[$index]} | cut -d' ' -f 1`
       if [[ -z `echo "${installed}" | grep "^${formula}$"` ]]; then
         missing_formulae=("${missing_formulae[@]}" "${desired_formulae[$index]}")
-      else
-        echo "Installed ${formula}"
       fi
     done
 
@@ -151,25 +137,22 @@ run_brew() {
     # Install each application if needed by brew cask
     local -a missing_formulae=()
     local -a desired_formulae=(
-      'abstract'
-      'alfred'
-      'atom'
-      'bettertouchtool'
       'charles'
       'cyberduck'
+      'figma'
       'google-chrome'
+      'insomnia'
       'iterm2'
-      'intellij-idea'
-      'adoptopenjdk8'
-      'sequel-pro'
-      'slack'
+      'jetbrains-toolbox'
+      'shiftit'
       'sketch'
       'skitch'
+      'slack'
       'visual-studio-code'
       'zoomus'
     )
 
-    local installed=`brew cask list`
+    local installed=`brew list --cask`
 
     for index in ${!desired_formulae[*]}
     do
@@ -196,57 +179,21 @@ run_brew() {
   fi
 }
 
-# anyenv
-run_anyenv() {
-  echo "Initializing anyenv..."
-
-  if has "anyenv"; then
-    echo "Installing anyenv..."
-    anyenv install rbenv
-    anyenv install pyenv
-    anyenv install phpenv
-    anyenv install ndenv
-    exec $SHELL -l
-
-    echo "$(tput setaf 2)Installed anyenv ✔︎$(tput sgr0)"
-
-  else
-    echo "$(tput setaf 1)anyenv not existed path.$(tput sgr0)"
-    exit 1
-  fi
-
-  # pyenv
-  if has "pyenv"; then
-    # Install python 3.X.X (latest)
-    latest3x=`pyenv install --list | grep -v - | grep -oe '3.\d.\d*$' | tail -n 1`
-    current=`pyenv versions | grep -oe '\d\.\d\{1,\}\.\d\{1,\}\([ ]\|$\)' | tail -n 1 | tr -d "[:space:]"`
-    if [[ ${current} != ${latest3x} ]]; then
-      echo "Installing pyenv install ${latest3x}"
-      pyenv install ${latest3x}
-      pyenv global ${latest3x}
-    else  
-      echo "Already pyenv global version is ${latest3x}"
-      pyenv global ${latest3x}
-    fi
-
-  else
-    echo "$(tput setaf 1)pyenv not installed.$(tput sgr0)"
-    exit 1
-  fi
-}
-
 # Installation and initialize
 initialize() {
-  run_brew
 
   # Install zplug (zsh plugin)
   [ ! -d ${HOME}/.zplug ] && curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh| zsh
 
-  # Change shell to zsh
+  # Change shell to zsh if needed
   [ ${SHELL} != "/bin/zsh"  ] && chsh -s /bin/zsh
 
-  # Install tpm (tmux plugin manager)
-  [ ! -d ${HOME}/.tmux/plugins/tpm ] && git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
+  run_brew
+  
+  # Initialize anyenv
+  if [ ! -d ${HOME}/.config/anyenv/anyenv-install ]; then
+    anyenv install --init
+  fi
 
   # Install dein.vim
   if [ ! -d ${HOME}/.vim/repos/github.com/Shougo/dein.vim ]; then
@@ -260,9 +207,9 @@ initialize() {
 
   deploy
 
-  run_anyenv
-
   echo "$(tput setaf 2)Initialize complete!. ✔︎$(tput sgr0)"
+
+  exec $SHELL -l
 }
 
 command=$1
