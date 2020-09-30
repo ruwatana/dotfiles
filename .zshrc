@@ -5,9 +5,11 @@
 # ------------------------------
 source ~/.zplug/init.zsh
 
-zplug "zsh-users/zsh-syntax-highlighting"
-zplug "zsh-users/zsh-completions"
 zplug 'dracula/zsh', as:theme
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-history-substring-search", defer:3
 
 if ! zplug check; then
     zplug install
@@ -85,28 +87,20 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 ### Prompt ###
 autoload -Uz colors; colors
 
-# username@hostname [current directory] % 
-tmp_prompt=$'%{${fg[green]}%}%n%{${fg[cyan]}%}@%{${fg[blue]}%}%m%{${fg[magenta]}%}[%~]%{${fg[cyan]}%} %# %{${reset_color}%}'
-
-# if root user
-[ ${UID} -eq 0 ] && tmp_prompt="%B%U${tmp_prompt}%u%b"
-PROMPT=$tmp_prompt
-# if ssh
-[ -n "${REMOTEHOST}${SSH_CONNECTION}" ] && PROMPT="%{${fg[white]}%}${HOST%%.*} ${PROMPT}"
-
 ### vcs_info ###
 autoload -Uz vcs_info
 setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true #formats 設定項目で %c,%u が使用可
-zstyle ':vcs_info:git:*' stagedstr "%F{green}!" #commit されていないファイルがある
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+" #add されていないファイルがある
-zstyle ':vcs_info:*' formats "%F{cyan}(%s) - %f%F{yellow}%c%u[%b]%f" #通常
-zstyle ':vcs_info:*' actionformats '(%s) - [%b|%a]' #rebase 途中,merge コンフリクト等 formats 外の表示
+zstyle ':vcs_info:git:*' check-for-changes true # formats 設定項目で %c,%u が使用可
+zstyle ':vcs_info:git:*' stagedstr "%F{red}!%F{yellow}" # commit されていないファイルがある
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}*" # add されていないファイルがある
+zstyle ':vcs_info:*' formats " %F{cyan}(%s) %f%F{green}%c%u [🌲 %b]%f" # 通常
+zstyle ':vcs_info:*' actionformats '(%s) - [%b|%a]' # rebase 途中,merge コンフリクト等 formats 外の表示
 precmd () { vcs_info }
 
-# RPROMPT
-RPROMPT='${vcs_info_msg_0_}' # シングルクォーテーションでないと認識されない
-RPROMPT="$RPROMPT %{${fg[blue]}%}[%*]%{${reset_color}%}"
+# PROMPT設定
+PROMPT='💻 %F{green}%n%f%F{cyan}@%f%F{blue}%m%f %F{magenta}[📂 %~]%f${vcs_info_msg_0_} %F{cyan}[🕒 %*]%f
+%F{cyan}%B%#%b%f '
+RPROMPT=''
 
 # iTermのtitle設定
 function chpwd() { 
