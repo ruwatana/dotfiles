@@ -139,6 +139,7 @@ run_brew() {
     local -a desired_formulae=(
       'charles'
       'cyberduck'
+      'docker'
       'figma'
       'google-chrome'
       'insomnia'
