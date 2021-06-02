@@ -166,7 +166,7 @@ run_brew() {
       list_formulae=$( printf "%s " "${missing_formulae[@]}" )
 
       echo "Installing missing Homebrew formulae..."
-      brew cask install $list_formulae
+      brew install --cask $list_formulae
 
       [[ $? ]] && echo "$(tput setaf 2)Installed missing formulae ✔︎$(tput sgr0)"
     fi
