@@ -149,7 +149,7 @@ run_brew() {
       'skitch'
       'slack'
       'visual-studio-code'
-      'zoomus'
+      'zoom'
     )
 
     local installed=`brew list --cask`
