@@ -112,7 +112,6 @@ run_brew() {
       'ffmpeg'
       'imagemagick'
       'tree'
-      'zsh'
     )
 
     local installed=`brew list`
