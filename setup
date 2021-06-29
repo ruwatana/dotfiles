@@ -111,6 +111,7 @@ run_brew() {
       'carthage'
       'ffmpeg'
       'imagemagick'
+      'jq'
       'tree'
     )
 
