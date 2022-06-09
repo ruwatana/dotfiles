@@ -23,3 +23,5 @@
   dl = branch -D
   f = fetch
   dla = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
+[init]
+	defaultBranch = main

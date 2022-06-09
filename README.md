@@ -1,26 +1,12 @@
 # dotfiles
 
+## Login to App Store
+You need to login to App Store for using `mas-cli` in `Homebrew
+
 ## Usage
 ```
 $ cd
-$ bash -c "$(curl -fsSL raw.github.com/ruwatana/dotfiles/master/setup)" -- initialize
-$ ./setup deploy
-```
-
-Or
-
-```
-$ cd
 $ git clone https://github.com/ruwatana/dotfiles.git
+$ cd dotfiles
+$ make
 ```
-
-### Initialize OS X (install)
-```
-$ ./setup initialize
-```
-
-### Deploy dotfiles (create symbolic links)
-```
-$ ./setup deploy
-```
-

@@ -133,4 +133,3 @@ PATH="/usr/local/sbin:$PATH"
 
 # anyenv
 eval "$(anyenv init -)"
-
