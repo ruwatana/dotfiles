@@ -18,11 +18,6 @@ else
 fi
 brew bundle --global
 
-# anyenv
-if [ ! -d ${HOME}/.config/anyenv/anyenv-install ]; then
-  anyenv install --init
-fi
-
 # dein.vim
 echo "Installing dein.vim..."
 if [ ! -d ${HOME}/.cache/dein/repos/github.com/Shougo/dein.vim ]; then

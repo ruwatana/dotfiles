@@ -5,13 +5,12 @@ tap "homebrew/core"
 
 cask_args appdir: "/Applications"
 
-brew "anyenv"
+brew "asdf"
 brew "ffmpeg"
 brew "gh"
 brew "imagemagick"
 brew "jq"
 brew "mas"
-brew "mysql"
 brew "tree"
 brew "zsh"
 
