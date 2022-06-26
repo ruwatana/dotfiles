@@ -128,11 +128,8 @@ function mov2gif() {
   rm $palette
 }
 
-# PATH設定 (sbin: for Homebrew)
-PATH="/usr/local/sbin:$PATH"
-
-# asdf
-. $(brew --prefix asdf)/libexec/asdf.sh
+# Homebrew for Apple Silicon Mac
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh
 if type brew &>/dev/null
@@ -142,3 +139,7 @@ then
   autoload -Uz compinit
   compinit
 fi
+
+# asdf
+. $(brew --prefix asdf)/libexec/asdf.sh
+
