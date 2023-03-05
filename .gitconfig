@@ -22,6 +22,11 @@
   st = status
   dl = branch -D
   f = fetch
-  dla = !git branch --merged | grep -v \\* | xargs -I % git branch -d %
+  #cleanup = !git branch -vv | grep ': gone]' | grep -v '\*' | awk '{ print $1 }' | xargs -r git branch -D;
 [init]
-	defaultBranch = main
+  defaultBranch = main
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+
+[push]
+	autoSetupRemote = true
