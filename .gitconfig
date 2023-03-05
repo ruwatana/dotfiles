@@ -22,7 +22,8 @@
   st = status
   dl = branch -D
   f = fetch
-  #cleanup = !git branch -vv | grep ': gone]' | grep -v '\*' | awk '{ print $1 }' | xargs -r git branch -D;
+  fp = fetch --prune
+  cleanup = !git fetch --prune && git branch -vv | grep ': gone]' | grep -v '\\*' | awk '{ print $1 }' | xargs -r git branch -D;
 [init]
   defaultBranch = main
 [url "ssh://git@github.com/"]
