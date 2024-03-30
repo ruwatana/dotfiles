@@ -16,12 +16,8 @@ if dein#load_state('~/.cache/dein')
 
   " Add or remove your plugins here like this:
   call dein#add('dracula/vim')
-  call dein#add('kchmck/vim-coffee-script')
-  call dein#add('keith/swift.vim')
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
-  "call dein#add('Shougo/neosnippet.vim')
-  "call dein#add('Shougo/neosnippet-snippets')
 
   " Required:
   call dein#end()
@@ -73,7 +69,7 @@ set autoindent     " 改行時に前の行のインデントを継続する
 set smartindent    " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 
 set ignorecase     " 大文字小文字を無視
-set smartcase      " ignorecaseと合わせることで，小文字入力の時のみ大文字小文字を無視
+set smartcase      " ignorecaseと合わせることで、小文字入力の時のみ大文字小文字を無視
 set incsearch      " インクリメンタルサーチ
 set hlsearch       " 検索結果をハイライト
 
