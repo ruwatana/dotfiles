@@ -38,7 +38,7 @@ setopt notify            # バックグラウンドジョブの状態変化を�
 setopt equals            # =commandを`which command`と同じ処理にする
 
 ### Complement ###
-autoload -U compinit; compinit # 補完機能を有効にする
+autoload -Uz compinit;compinit # 補完機能を有効にする
 setopt auto_list               # 補完候補を一覧で表示する(d)
 setopt auto_menu               # 補完キー連打で補完候補を順に表示する(d)
 setopt list_packed             # 補完候補をできるだけ詰めて表示する
@@ -68,7 +68,6 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 # bindkey "^[[A" history-beginning-search-backward-end # 上矢印でマッチしたヒストリ検索(逆)
 # bindkey "^[[B" history-beginning-search-forward-end  # 下矢印でマッチしたヒストリ検索
-
 
 # ------------------------------
 # Look And Feel Settings
@@ -102,23 +101,16 @@ PROMPT='💻 %F{green}%n%f%F{cyan}@%f%F{blue}%m%f %F{magenta}[📂 %~]%f${vcs_in
 %F{cyan}%B%#%b%f '
 RPROMPT=''
 
-# iTermのtitle設定
-function chpwd() { 
-  echo -ne "\033]0;$(pwd | rev | awk -F \/ '{print $1"/"$2}'| rev)\007"
-}
-# 現在のディレクトリ情報をtitleに出力
-chpwd;
-
 # ------------------------------
 # Other Settings
 # ------------------------------
 
-# cdコマンド実行後、lsとタイトルセットを実行する
+# cdコマンド実行後、lsを実行する
 function cd() {
   builtin cd $@ && ls -a;
-  chpwd; 
 }
 
+# .mov ファイルから .gif を生成する
 function mov2gif() {
   palette="palette.png"
   filters="fps=30,scale=300:-1:flags=lanczos"
@@ -149,6 +141,14 @@ then
   # JAVA_HOME
   . ~/.asdf/plugins/java/set-java-home.zsh
 fi
+
+# direnv
+eval "$(direnv hook zsh)"
+
+export PATH="$PATH:$HOME/.asdf/shims/flutter:$HOME/.docker/bin"
+
+source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
 
 ###-begin-npm-completion-###
 #
@@ -219,10 +219,4 @@ elif type compctl &>/dev/null; then
   compctl -K _npm_completion npm
 fi
 ###-end-npm-completion-###
-
-# gcloud
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
-source "/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
-
-# direnv
-eval "$(direnv hook zsh)"
+alias tailscale=/Applications/Tailscale.app/Contents/MacOS/Tailscale
