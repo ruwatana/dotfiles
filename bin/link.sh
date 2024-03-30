@@ -4,17 +4,39 @@ set -e
 
 echo "Linking dotfiles..."
 
-for f in .??*; do
-  # Force remove the vim directory if it's already there
-  [ -n "${OVERWRITE}" -a -e ${HOME}/${f} ] && rm -f ${HOME}/${f}
-  if [ ! -e ${HOME}/${f} ]; then
-    # If you have ignore files, add file/directory name here
-    [[ ${f} = ".git" ]] && continue
-    [[ ${f} = ".github" ]] && continue
-    [[ ${f} = ".gitignore" ]] && continue
-    [[ ${f} = ".DS_Store" ]] && continue
-    ln -snfv ${HOME}/dotfiles/${f} ${HOME}/${f}
+DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
+
+IGNORED_ITEMS=(
+  "bin"
+  "Makefile"
+  "README.md"
+  "LICENSE"
+  ".gitignore"
+  ".gitmodules"
+)
+
+git -C "$DOTFILES_DIR" ls-files | while read filename; do
+  should_ignore=false
+  for item in "${IGNORED_ITEMS[@]}"; do
+    if [[ "$filename" == $item* ]]; then
+      should_ignore=true
+      break
+    fi
+  done
+
+  if $should_ignore; then
+    continue
   fi
+
+  if [ -L "${HOME}/${filename}" ]; then
+    echo "Link already exists for ${filename}, skipping."
+    continue
+  fi
+
+  target_dir="${HOME}/$(dirname "${filename}")"
+  mkdir -p "$target_dir"
+
+  ln -snfv "${DOTFILES_DIR}/${filename}" "${HOME}/${filename}"
 done
 
 echo "$(tput setaf 2)Linking dotfiles was completed! ✔︎$(tput sgr0)"
