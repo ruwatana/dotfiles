@@ -1,6 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask-versions"
-brew "act"
 brew "actionlint"
 brew "asdf"
 brew "buf"
@@ -9,19 +7,15 @@ brew "ffmpeg"
 brew "firebase-cli"
 brew "gh"
 brew "gitmoji"
-brew "python@3.11"
 brew "grpc"
 brew "grpcurl"
 brew "imagemagick"
 brew "jq"
 brew "k6"
 brew "kubernetes-cli"
-brew "licenseplist"
 brew "mas"
-brew "mint"
 brew "terraform"
 brew "tree"
-brew "yarn"
 brew "yq"
 cask "appcleaner"
 cask "charles"
@@ -47,13 +41,11 @@ cask "visual-studio-code"
 cask "xcodes"
 cask "zoom"
 mas "CopyLinkToPasteboard", id: 1551527433
-mas "GarageBand", id: 682658836
 mas "Keynote", id: 409183694
 mas "LINE", id: 539883307
 mas "Microsoft Remote Desktop", id: 1295203466
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
-mas "Twitter", id: 1482454543
 mas "Xcode", id: 497799835
 vscode "aaron-bond.better-comments"
 vscode "arjun.swagger-viewer"
