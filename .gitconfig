@@ -1,32 +1,61 @@
-[user]
-  email = ruwatana@gmail.com
-  name = ruwatana 
-[merge]
-  tool = vimdiff
+[branch]
+  sort = -committerdate
+
+[color]
+  branch = auto
+  diff = auto
+  grep = auto
+  interactive = auto
+  status = auto
+  ui = auto
+
+[commit]
+  verbose = true
+
 [core]
+  autocrlf = input
   editor = vim
+  whitespace = trailing-space,space-before-tab
+
+[diff]
+  algorithm = histogram
+  mnemonicPrefix = true
+  renames = copies
+
+[fetch]
+  prune = true
+  pruneTags = true
+
 [gui]
   encoding = utf-8
-[color]
-  ui = auto
-  status = auto
-  diff = auto
-  branch = auto
-  interactive = auto
-  grep = auto
-[alias]
-  graph = log --graph --date=short --decorate=short --pretty=format:'%Cgreen%h %Creset%cd %Cblue%cn %Cred%d %Creset%s'
-  co = checkout
-  cm = commit
-  d = diff
-  st = status
-  dl = branch -D
-  f = fetch
-  fp = fetch --prune
-  cleanup = !git fetch --prune && git branch -vv | grep ': gone]' | grep -v '\\*' | awk '{ print $1 }' | xargs -r git branch -D;
+
 [init]
   defaultBranch = main
-[url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+
+[log]
+  date = iso
+
+[merge]
+  conflictstyle = zdiff3
+  tool = vimdiff
+
+[pull]
+  ff = only
+
 [push]
   autoSetupRemote = true
+  default = current
+
+[rebase]
+  autoStash = true
+
+[status]
+  showUntrackedFiles = all
+  submoduleSummary = true
+
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+
+[user]
+  email = ruwatana@gmail.com
+  name = ruwatana
