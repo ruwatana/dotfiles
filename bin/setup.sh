@@ -2,6 +2,15 @@
 
 set -e
 
+# sudo with Touch ID
+echo "Copying /etc/pam.d/sudo_local..."
+if [ ! -f /etc/pam.d/sudo_local ]; then
+  sed -e 's/^#auth/auth/' /etc/pam.d/sudo_local.template | sudo tee /etc/pam.d/sudo_local
+  echo "$(tput setaf 2)Copying /etc/pam.d/sudo_local was completed! ✔︎$(tput sgr0)"
+else
+  echo "$(tput setaf 2)/etc/pam.d/sudo_local already exists, skipping. ✔︎$(tput sgr0)"
+fi
+
 # zinit (zsh plugin manager)
 [ ! -d ${HOME}/.local/share/zinit ] && bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
 
