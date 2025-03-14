@@ -21,6 +21,11 @@ zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-history-substring-search
+zinit light MichaelAquilina/zsh-you-should-use
+
+# Load snippets
+zinit snippet OMZP::common-aliases
+zinit snippet OMZP::git
 
 # ------------------------------
 # Zsh General Settings
