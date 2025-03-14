@@ -1,8 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'dylanaraps/wal.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'itchyny/lightline.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -24,19 +23,26 @@ let g:lsp_diagnostics_enabled = 1         " 診断を有効化
 let g:lsp_diagnostics_echo_cursor = 1     " カーソル位置の診断を表示
 let g:lsp_diagnostics_float_cursor = 1    " フロート表示を有効化
 
-" Airline
-let g:airline_powerline_fonts = 0             " Powerlineフォントを無効化
-let g:airline#extensions#tabline#enabled = 1  " タブラインを表示
-let g:airline#extensions#branch#enabled = 1   " Gitブランチを表示
-let g:airline_theme='onedark'                    " テーマを設定
+" Lightline設定
+let g:lightline = {
+      \ 'colorscheme': 'wombat',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ },
+      \ }
 
 " 基本設定
-set encoding=utf-8                " 文字エンコーディングをUTF-8に設定
+set encoding=utf-8               " 文字エンコーディングをUTF-8に設定
 set fileencoding=utf-8           " 保存時の文字エンコーディング
 set clipboard=unnamed,autoselect " システムのクリップボードと連携
 set backspace=indent,eol,start   " バックスペースの動作設定
-set whichwrap=b,s,h,l,<,>,[,],~ " カーソル移動で行を跨げるように
+set whichwrap=b,s,h,l,<,>,[,],~  " カーソル移動で行を跨げるように
 set scrolloff=3                  " スクロール時の余白確保
+set noshowmode                   " モード表示を無効化
 
 " インデント設定
 set expandtab       " タブを空白文字に変換
@@ -54,11 +60,9 @@ set hlsearch        " 検索結果をハイライト
 
 " 表示設定
 set number          " 行番号を表示
-set relativenumber  " 相対行番号を表示
 set cursorline      " カーソル行をハイライト
 set colorcolumn=100 " 100列目にラインを表示
 set signcolumn=yes  " サイン列を常に表示
-set noshowmode      " モード表示を無効化
 set laststatus=2    " ステータスラインを常に表示
 set showtabline=2   " タブラインを常に表示
 
