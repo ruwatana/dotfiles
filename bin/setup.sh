@@ -18,17 +18,21 @@ else
 fi
 brew bundle --global
 
-# dein.vim
-echo "Installing dein.vim..."
-if [ ! -d ${HOME}/.cache/dein/repos/github.com/Shougo/dein.vim ]; then
-  curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-  # For example, we just use `~/.cache/dein` as installation directory
-  sh ./installer.sh ~/.cache/dein
-  rm -rf ./installer.sh
-  echo "$(tput setaf 2)Installing dein.vim was completed! ✔︎$(tput sgr0)"
+# vim-plug
+echo "Installing vim-plug..."
+if [ ! -f ${HOME}/.vim/autoload/plug.vim ]; then
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  echo "$(tput setaf 2)Installing vim-plug was completed! ✔︎$(tput sgr0)"
+  echo "Installing Vim plugins..."
+  vim +PlugInstall +qall
+  echo "$(tput setaf 2)Installing Vim plugins was completed! ✔︎$(tput sgr0)"
 else
-  echo "$(tput setaf 2)dein.vim has already been installed ✔︎$(tput sgr0)"
-fi
+  echo "$(tput setaf 2)vim-plug has already been installed ✔︎$(tput sgr0)"
+  echo "Updating Vim plugins..."
+  vim +PlugUpdate +qall
+  echo "$(tput setaf 2)Updating Vim plugins was completed! ✔︎$(tput sgr0)"
+fi 
 
 echo "$(tput setaf 2)Setup was completed!. ✔︎$(tput sgr0)"
 
